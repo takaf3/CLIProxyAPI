@@ -797,6 +797,7 @@ func (h *Handler) PatchOpenAICompat(c *gin.Context) {
 		Disabled              *bool                               `json:"disabled"`
 		DisableCooling        json.RawMessage                     `json:"disable-cooling"`
 		BaseURL               *string                             `json:"base-url"`
+		WireAPI               *string                             `json:"wire-api"`
 		APIKeyEntries         *[]config.OpenAICompatibilityAPIKey `json:"api-key-entries"`
 		Models                *[]config.OpenAICompatibilityModel  `json:"models"`
 		Headers               *map[string]string                  `json:"headers"`
@@ -859,6 +860,9 @@ func (h *Handler) PatchOpenAICompat(c *gin.Context) {
 			return
 		}
 		entry.BaseURL = trimmed
+	}
+	if body.Value.WireAPI != nil {
+		entry.WireAPI = strings.TrimSpace(*body.Value.WireAPI)
 	}
 	if body.Value.APIKeyEntries != nil {
 		for keyIndex := range *body.Value.APIKeyEntries {
